@@ -13,16 +13,36 @@ If you do not know the rules, you can find them here: ${rulesLink}
 
 Best 3 out of 5 wins.`)
 
-for (let i = 0; i < 5; i++) {
+function game() {
+    for (let i = 0; i < 5; i++) {
+        let playerChoice = prompt("Choose your weapon! (not case-sensitive)").toLowerCase();
+        if (!choices.includes(playerChoice)) {
+            i--;
+            alert("Please enter a valid choice");
+            continue;
+        }
 
-    let playerChoice = prompt("Choose your weapon! (not case-sensitive)").toLowerCase();
-    if (!choices.includes(playerChoice)) {
-        i--;
-        alert("Please enter a valid choice");
-        continue;
+        playRound(playerChoice);
+
+        if (playerWonGames > 2) {
+            alert("You won! Congratulations!\n\n(Press F5 to reload the page for a new game)");
+            break;
+        }
+        else if (computerWonGames > 2) {
+            alert("You lost! Try again!\n\n(Press F5 to reload the page for a new game)");
+            break;
+        }
+        else {
+            console.log("New round!")
+        }
     }
+    playerWonGames = 0;
+    computerWonGames = 0;
+}
+
+function playRound(playerChoice) {
     let computerChoice = choices[Math.floor(Math.random() * choices.length)];
-    
+
     switch (checkPlayerWonGame(playerChoice, computerChoice)) {
         case loss:
             computerWonGames++;
@@ -34,26 +54,11 @@ for (let i = 0; i < 5; i++) {
             i--;
             break;
     }
-    
+
     console.log(`Player: ${playerWonGames}`);
     console.log(`Computer: ${computerWonGames}`);
-    
-    if (playerWonGames > 2) {
-        alert(`You won! Congratulations!
-        
-(Press F5 to reload the page for a new game)`);
-        break;
-    }
-    else if (computerWonGames > 2) {
-        alert(`You lost! Try again!
-
-(Press F5 to reload the page for a new game)`);
-        break;
-    }
-    else {
-        console.log("New round!")
-    }
 }
+
 
 function checkPlayerWonGame(playerChoice, computerChoice) {
     switch (playerChoice) {
