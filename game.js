@@ -1,180 +1,198 @@
-const rulesLink = "https://en.wikipedia.org/wiki/File:Rock_paper_scissors_lizard_spock.png";
-const choices = ["rock", "paper", "scissors", "lizard", "spock"];
-const tie = "tie";
-const loss = "loss";
-const win = "win";
+const CHOICES = ["rock", "paper", "scissors", "lizard", "spock"];
+const TIE = "tie";
+const LOSS = "loss";
+const WIN = "win";
+const HALF_SECOND = 500; //ms
+const LIZARD_IMAGE = "./images/lizard.png";
+const PAPER_IMAGE = "./images/paper.png";
+const ROCK_IMAGE = "./images/rock.png";
+const SCISSORS_IMAGE = "./images/scissors.png";
+const SPOCK_IMAGE = "./images/spock.png";
+const IMAGES = [LIZARD_IMAGE, PAPER_IMAGE, ROCK_IMAGE, SCISSORS_IMAGE, SPOCK_IMAGE];
 
 let playerWonGames = 0;
 let computerWonGames = 0;
 
-/*
-alert(`Let's play a game of rock, paper, scissors, lizard, spock.
+const choicesBox = document.querySelector(".choiceButtons");
+const choiceButtons = choicesBox.getElementsByTagName("button");
 
-If you do not know the rules, you can find them here: ${rulesLink}
+for (let button of choiceButtons) {
+    button.addEventListener("click", playRound);
+}
 
-Best 3 out of 5 wins.`)
-*/
+const playerChoiceButton = document.querySelector("#playerChoice");
+const computerChoiceButton = document.querySelector("#computerChoice");
 
-function game() {
-    for (let i = 0; i < 5; i++) {
-        //let playerChoice = prompt("Choose your weapon! (not case-sensitive)").toLowerCase();
-        if (!choices.includes(playerChoice)) {
-            i--;
-            alert("Please enter a valid choice");
-            continue;
-        }
+const score = document.querySelector(".score");
+const result = document.querySelector(".resultText");
 
-        playRound(playerChoice);
+const reloadButton = document.querySelector(".reload");
+reloadButton.addEventListener("click", () => {location.reload()});
 
-        if (playerWonGames > 2) {
+function playRound(event) {
+    let playerChoice = event.currentTarget.getAttribute("class");
+    setPlayerChoiceImage(playerChoice);
+
+    let computerChoice = CHOICES[Math.floor(Math.random() * CHOICES.length)];
+    
+    checkPlayerWonGame(playerChoice, computerChoice) == LOSS ? computerWonGames++ : playerWonGames++;
+    score.textContent = `${playerWonGames} : ${computerWonGames}`;
+
+    if (playerWonGames > 2) {
+        setTimeout(function() {
             alert("You won! Congratulations!\n\n(Press F5 to reload the page for a new game)");
-            break;
-        }
-        else if (computerWonGames > 2) {
+        }, HALF_SECOND);
+        disableChoiceButtons();
+    }
+    else if (computerWonGames > 2) {
+        setTimeout(function() {
             alert("You lost! Try again!\n\n(Press F5 to reload the page for a new game)");
-            break;
-        }
-        else {
-            console.log("New round!")
-        }
+        }, HALF_SECOND);
+        disableChoiceButtons();
     }
-    playerWonGames = 0;
-    computerWonGames = 0;
+    else {
+        console.log("New round!")
+    }
 }
 
-function playRound(playerChoice) {
-    let computerChoice = choices[Math.floor(Math.random() * choices.length)];
-
-    switch (checkPlayerWonGame(playerChoice, computerChoice)) {
-        case loss:
-            computerWonGames++;
-            break;
-        case win:
-            playerWonGames++;
-            break;
-        default:
-            i--;
-            break;
+function disableChoiceButtons() {
+    for (let button of choiceButtons) {
+        button.removeEventListener("click",playRound);
+        button.disabled = true;
     }
-
-    console.log(`Player: ${playerWonGames}`);
-    console.log(`Computer: ${computerWonGames}`);
 }
-
 
 function checkPlayerWonGame(playerChoice, computerChoice) {
     switch (playerChoice) {
-        case choices[0]:
+        case CHOICES[0]:
             return checkRockMoves(computerChoice);
-        case choices[1]:
+        case CHOICES[1]:
             return checkPaperMoves(computerChoice);
-        case choices[2]:
+        case CHOICES[2]:
             return checkScissorsMoves(computerChoice);
-        case choices[3]:
+        case CHOICES[3]:
             return checkLizardMoves(computerChoice);
-        case choices[4]:
+        case CHOICES[4]:
             return checkSpockMoves(computerChoice);
         default:
-            return tie;
+            return TIE;
     }
 }
 
 function checkRockMoves(computerChoice) {
     switch (computerChoice) {
-        case choices[0]:
-            console.log("Both players chose rock, it's a tie");
-            return tie;
-        case choices[1]:
-            console.log("Rock gets covered by paper. Player loses!");
-            return loss;
-        case choices[2]:
-            console.log("Rock crushes scissors. Player wins!");
-            return win;
-        case choices[3]:
-            console.log("Rock crushes lizard. Player wins!");
-            return win;
-        case choices[4]:
-            console.log("Rock gets vaporized by Spock. Player loses!");
-            return loss;
+        case CHOICES[0]:
+            result.textContent = "Both players chose rock, it's a tie";
+            return TIE;
+        case CHOICES[1]:
+            result.textContent = "Rock gets covered by paper. Player loses!";
+            return LOSS;
+        case CHOICES[2]:
+            result.textContent = "Rock crushes scissors. Player wins!";
+            return WIN;
+        case CHOICES[3]:
+            result.textContent = "Rock crushes lizard. Player wins!";
+            return WIN;
+        case CHOICES[4]:
+            result.textContent = "Rock gets vaporized by Spock. Player loses!";
+            return LOSS;
     }
 }
 
 function checkPaperMoves(computerChoice) {
     switch (computerChoice) {
-        case choices[0]:
-            console.log("Paper covers rock. Player wins!");
-            return win;
-        case choices[1]:
-            console.log("Both players chose paper, it's a tie!");
-            return tie;
-        case choices[2]:
-            console.log("Paper gets cut by scissors. Player loses!");
-            return loss;
-        case choices[3]:
-            console.log("Paper gets eaten by lizard. Player loses!");
-            return loss;
-        case choices[4]:
-            console.log("Paper disproves Spock. Player wins!");
-            return win;
+        case CHOICES[0]:
+            result.textContent = "Paper covers rock. Player wins!";
+            return WIN;
+        case CHOICES[1]:
+            result.textContent = "Both players chose paper, it's a tie!";
+            return TIE;
+        case CHOICES[2]:
+            result.textContent = "Paper gets cut by scissors. Player loses!";
+            return LOSS;
+        case CHOICES[3]:
+            result.textContent = "Paper gets eaten by lizard. Player loses!";
+            return LOSS;
+        case CHOICES[4]:
+            result.textContent = "Paper disproves Spock. Player wins!";
+            return WIN;
     }
 }
 
 function checkScissorsMoves(computerChoice) {
     switch (computerChoice) {
-        case choices[0]:
-            console.log("Scissors get crushed by rock. Player loses!");
-            return loss;
-        case choices[1]:
-            console.log("Scissors cut paper. Player wins!");
-            return win;
-        case choices[2]:
-            console.log("Both players chose scissors, it's a tie!");
-            return tie;
-        case choices[3]:
-            console.log("Scissors decapitate lizard. Player wins!");
-            return win;
-        case choices[4]:
-            console.log("Scissors get smashed by Spock. Player loses!");
-            return loss;
+        case CHOICES[0]:
+            result.textContent = "Scissors get crushed by rock. Player loses!";
+            return LOSS;
+        case CHOICES[1]:
+            result.textContent = "Scissors cut paper. Player wins!";
+            return WIN;
+        case CHOICES[2]:
+            result.textContent = "Both players chose scissors, it's a tie!";
+            return TIE;
+        case CHOICES[3]:
+            result.textContent = "Scissors decapitate lizard. Player wins!";
+            return WIN;
+        case CHOICES[4]:
+            result.textContent = "Scissors get smashed by Spock. Player loses!";
+            return LOSS;
     }
 }
 
 function checkLizardMoves(computerChoice) {
     switch (computerChoice) {
-        case choices[0]:
-            console.log("Lizard gets smashed by rock. Player loses!");
-            return loss;
-        case choices[1]:
-            console.log("Lizard eats paper. Player wins!");
-            return win;
-        case choices[2]:
-            console.log("Lizard gets decapitated by scissors. Player loses!");
-            return loss;
-        case choices[3]:
-            console.log("Both players chose lizard, it's a tie!");
-            return tie;
-        case choices[4]:
-            console.log("Lizard poisons Spock. Player wins!");
-            return win;
+        case CHOICES[0]:
+            result.textContent = "Lizard gets smashed by rock. Player loses!";
+            return LOSS;
+        case CHOICES[1]:
+            result.textContent = "Lizard eats paper. Player wins!";
+            return WIN;
+        case CHOICES[2]:
+            result.textContent = "Lizard gets decapitated by scissors. Player loses!";
+            return LOSS;
+        case CHOICES[3]:
+            result.textContent = "Both players chose lizard, it's a tie!";
+            return TIE;
+        case CHOICES[4]:
+            result.textContent = "Lizard poisons Spock. Player wins!";
+            return WIN;
     }
 }
 
 function checkSpockMoves(computerChoice) {
     switch (computerChoice) {
-        case choices[0]:
-            console.log("Spock vaporizes rock. Player wins!");
-            return win;
-        case choices[1]:
-            console.log("Spock gets disproven by paper. Player loses!");
-            return loss;
-        case choices[2]:
-            console.log("Spock smashes scissors. Player wins!");
-            return win;
-        case choices[3]:
-            console.log("Spock gets poisoned by lizard. Player loses!");
-            return loss;
-        case choices[4]:
-            console.log("Both players chose Spock, it's a tie!");
-            return tie;
+        case CHOICES[0]:
+            result.textContent = "Spock vaporizes rock. Player wins!";
+            return WIN;
+        case CHOICES[1]:
+            result.textContent = "Spock gets disproven by paper. Player loses!";
+            return LOSS;
+        case CHOICES[2]:
+            result.textContent = "Spock smashes scissors. Player wins!";
+            return WIN;
+        case CHOICES[3]:
+            result.textContent = "Spock gets poisoned by lizard. Player loses!";
+            return LOSS;
+        case CHOICES[4]:
+            result.textContent = "Both players chose Spock, it's a tie!";
+            return TIE;
+    }
+}
+
+function setPlayerChoiceImage(playerChoice) {
+    if (playerChoice.includes(CHOICES[0])) {    
+        playerChoiceButton.innerHTML = `<img src=${ROCK_IMAGE} width=200px, height=200px>`;
+    }
+    else if (playerChoice.includes(CHOICES[1])) {
+        playerChoiceButton.innerHTML = `<img src=${PAPER_IMAGE} width=200px, height=200px>`;
+    }
+    else if (playerChoice.includes(CHOICES[2])) {
+        playerChoiceButton.innerHTML = `<img src=${SCISSORS_IMAGE} width=200px, height=200px>`;
+    }
+    else if (playerChoice.includes(CHOICES[3])) {
+        playerChoiceButton.innerHTML = `<img src=${LIZARD_IMAGE} width=200px, height=200px>`;
+    }
+    else if (playerChoice.includes(CHOICES[4])) {
+        playerChoiceButton.innerHTML = `<img src=${SPOCK_IMAGE} width=200px, height=200px>`;
     }
 }
