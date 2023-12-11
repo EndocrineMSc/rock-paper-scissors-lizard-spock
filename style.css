@@ -1,0 +1,68 @@
+.centered {
+    display: flex;
+    flex-direction: row;
+    color: white;
+    justify-content:space-evenly;
+    border-style: dotted;
+}
+
+.rules {
+    display: flex;
+    align-items: start;
+    border-style: dashed;
+    border-color: red;
+    font-size: 25px;
+    padding-left: 20px;
+}
+
+.vertical {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.rulesText {
+    padding: 20px;
+}
+
+.resultText {
+    display: flex;
+    justify-content: center;
+    color: white;
+    font-size: 20px;
+}
+
+ul {
+    margin-bottom: 0px;
+}
+
+.score {
+    margin: 100 0;
+    color: red;
+    font-weight: bold;
+    font-size: 100px;
+    font-family: "Digital-7", "Helvetica", "Sans-Serif";
+    border-style: double;
+}
+
+.choiceButtons {
+    padding: 100px;
+}
+
+
+h1 {
+    font-size: 125px;
+    padding: 5px;
+    margin-bottom: 0;
+    margin-top: 0;
+}
+
+body {
+    background-color: #101010;
+    color: white;
+}
+
+@font-face {
+    font-family: "Digital-7";
+    src: url(fonts/digital-7.ttf);
+}

@@ -7,15 +7,17 @@ const win = "win";
 let playerWonGames = 0;
 let computerWonGames = 0;
 
+/*
 alert(`Let's play a game of rock, paper, scissors, lizard, spock.
 
 If you do not know the rules, you can find them here: ${rulesLink}
 
 Best 3 out of 5 wins.`)
+*/
 
 function game() {
     for (let i = 0; i < 5; i++) {
-        let playerChoice = prompt("Choose your weapon! (not case-sensitive)").toLowerCase();
+        //let playerChoice = prompt("Choose your weapon! (not case-sensitive)").toLowerCase();
         if (!choices.includes(playerChoice)) {
             i--;
             alert("Please enter a valid choice");
