@@ -3,6 +3,7 @@ const TIE = "tie";
 const LOSS = "loss";
 const WIN = "win";
 const HALF_SECOND = 500; //ms
+const ONE_HUNDREDST_SECOND = 100; //ms
 const LIZARD_IMAGE = "./images/lizard.png";
 const PAPER_IMAGE = "./images/paper.png";
 const ROCK_IMAGE = "./images/rock.png";
@@ -31,11 +32,28 @@ reloadButton.addEventListener("click", () => {location.reload()});
 
 function playRound(event) {
     let playerChoice = event.currentTarget.getAttribute("class");
+    playerChoice = String(playerChoice).split(" ")[1];
     setPlayerChoiceImage(playerChoice);
 
     let computerChoice = CHOICES[Math.floor(Math.random() * CHOICES.length)];
+    setComputerChoiceImage(computerChoice);
     
-    checkPlayerWonGame(playerChoice, computerChoice) == LOSS ? computerWonGames++ : playerWonGames++;
+    switch (checkPlayerWonGame(playerChoice, computerChoice)) {
+        case LOSS:
+            computerWonGames++;
+            computerChoiceButton.style.backgroundColor = "green";
+            playerChoiceButton.style.backgroundColor = "red";
+            break;
+        case WIN:
+            playerWonGames++;
+            computerChoiceButton.style.backgroundColor = "red";
+            playerChoiceButton.style.backgroundColor = "green";
+            break;
+        case TIE:
+            computerChoiceButton.style.backgroundColor = "grey";
+            playerChoiceButton.style.backgroundColor = "grey";
+            break;       
+    }
     score.textContent = `${playerWonGames} : ${computerWonGames}`;
 
     if (playerWonGames > 2) {
@@ -194,5 +212,23 @@ function setPlayerChoiceImage(playerChoice) {
     }
     else if (playerChoice.includes(CHOICES[4])) {
         playerChoiceButton.innerHTML = `<img src=${SPOCK_IMAGE} width=200px, height=200px>`;
+    }
+}
+
+function setComputerChoiceImage(computerChoice) {
+    if (computerChoice.includes(CHOICES[0])) {    
+        computerChoiceButton.innerHTML = `<img src=${ROCK_IMAGE} width=200px, height=200px>`;
+    }
+    else if (computerChoice.includes(CHOICES[1])) {
+        computerChoiceButton.innerHTML = `<img src=${PAPER_IMAGE} width=200px, height=200px>`;
+    }
+    else if (computerChoice.includes(CHOICES[2])) {
+        computerChoiceButton.innerHTML = `<img src=${SCISSORS_IMAGE} width=200px, height=200px>`;
+    }
+    else if (computerChoice.includes(CHOICES[3])) {
+        computerChoiceButton.innerHTML = `<img src=${LIZARD_IMAGE} width=200px, height=200px>`;
+    }
+    else if (computerChoice.includes(CHOICES[4])) {
+        computerChoiceButton.innerHTML = `<img src=${SPOCK_IMAGE} width=200px, height=200px>`;
     }
 }
