@@ -58,15 +58,19 @@ function playRound(event) {
     score.textContent = `${playerWonGames} : ${computerWonGames}`;
 
     if (playerWonGames > 2) {
-        setTimeout(function() {
-            alert("You won! Congratulations!\n\n(Press F5 to reload the page for a new game)");
-        }, HALF_SECOND);
+        const winText = document.createElement("p");
+        winText.style.color = "green";
+        winText.style.fontSize = "40px";
+        winText.textContent = "You won the game! Play again?";
+        result.appendChild(winText);
         disableChoiceButtons();
     }
     else if (computerWonGames > 2) {
-        setTimeout(function() {
-            alert("You lost! Try again!\n\n(Press F5 to reload the page for a new game)");
-        }, HALF_SECOND);
+        const loseText = document.createElement("p");
+        loseText.style.color = "red";
+        loseText.style.fontSize = "40px";
+        loseText.textContent = "You lost the game! Try again!"
+        result.appendChild(loseText);
         disableChoiceButtons();
     }
     else {
@@ -99,23 +103,27 @@ function checkPlayerWonGame(playerChoice, computerChoice) {
 }
 
 function checkRockMoves(computerChoice) {
+    let outcome = "";
     switch (computerChoice) {
         case CHOICES[0]:
-            result.textContent = "Both players chose rock, it's a tie";
-            return TIE;
+            resultText = "Both players chose rock, it's a tie";          
+            outcome = TIE;
+            break;
         case CHOICES[1]:
-            result.textContent = "Rock gets covered by paper. Player loses!";
-            return LOSS;
+            resultText = "Rock gets covered by paper. Player loses!"
+            outcome = LOSS;
         case CHOICES[2]:
-            result.textContent = "Rock crushes scissors. Player wins!";
-            return WIN;
+            resultText = "Rock crushes scissors. Player wins!";
+            outcome = WIN;
         case CHOICES[3]:
-            result.textContent = "Rock crushes lizard. Player wins!";
-            return WIN;
+            resultText = "Rock crushes lizard. Player wins!";
+            outcome = WIN;
         case CHOICES[4]:
-            result.textContent = "Rock gets vaporized by Spock. Player loses!";
-            return LOSS;
+            resultText = "Rock gets vaporized by Spock. Player loses!";
+            outcome = LOSS;
     }
+    result.textContent = resultText;
+    return outcome;
 }
 
 function checkPaperMoves(computerChoice) {
