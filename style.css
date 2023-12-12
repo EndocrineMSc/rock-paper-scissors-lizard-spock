@@ -15,7 +15,8 @@
 
 .rulesText {
     padding: 20px;
-    color: #000000
+    color: #000000;
+    font-family: "Helvetica", "Times New Roman", "Digital-7", "Sans-Serif";
 }
 
 .vertical {
@@ -30,7 +31,7 @@
 
 .resultContainer {
     display: flex;
-    padding: 20px;
+    padding-top: 20px;
     background-color: #3b3b3b;
     align-items: center;
 }
@@ -41,8 +42,8 @@
     color: #C0FF6B;
     font-size: 20px;
     font-weight: 600;
-    background-color: #3d3c3c;
     padding-bottom: 1%;
+    background-color: #3b3b3b;
 }
 
 ul {
@@ -71,10 +72,11 @@ ul {
 }
 
 .reload {
-    width: 100px;
+    width: auto;
     margin-left: auto;
     margin-right: auto;
     margin-top: 10px;
+    font-size: 50px;
 }
 
 h1 {
@@ -92,6 +94,7 @@ h1 {
 body {
     background-color: #000000;
     color: white;
+    font-family: "Digital-7", "Helvetica", "Sans-Serif";
 }
 
 @font-face {

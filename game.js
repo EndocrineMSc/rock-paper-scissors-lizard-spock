@@ -13,6 +13,7 @@ const IMAGES = [LIZARD_IMAGE, PAPER_IMAGE, ROCK_IMAGE, SCISSORS_IMAGE, SPOCK_IMA
 
 let playerWonGames = 0;
 let computerWonGames = 0;
+let resultText = "";
 
 const choicesBox = document.querySelector(".choiceButtons");
 const choiceButtons = choicesBox.getElementsByTagName("button");
