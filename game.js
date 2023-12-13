@@ -103,27 +103,24 @@ function checkPlayerWonGame(playerChoice, computerChoice) {
 }
 
 function checkRockMoves(computerChoice) {
-    let outcome = "";
     switch (computerChoice) {
         case CHOICES[0]:
-            resultText = "Both players chose rock, it's a tie";          
-            outcome = TIE;
+            result.textContent = "Both players chose rock, it's a tie";          
+            return TIE;
             break;
         case CHOICES[1]:
-            resultText = "Rock gets covered by paper. Player loses!"
-            outcome = LOSS;
+            result.textContent = "Rock gets covered by paper. Player loses!"
+            return LOSS;
         case CHOICES[2]:
-            resultText = "Rock crushes scissors. Player wins!";
-            outcome = WIN;
+            result.textContent = "Rock crushes scissors. Player wins!";
+            return WIN;
         case CHOICES[3]:
-            resultText = "Rock crushes lizard. Player wins!";
-            outcome = WIN;
+            result.textContent = "Rock crushes lizard. Player wins!";
+            return WIN;
         case CHOICES[4]:
-            resultText = "Rock gets vaporized by Spock. Player loses!";
-            outcome = LOSS;
+            result.textContent = "Rock gets vaporized by Spock. Player loses!";
+            return LOSS;
     }
-    result.textContent = resultText;
-    return outcome;
 }
 
 function checkPaperMoves(computerChoice) {
